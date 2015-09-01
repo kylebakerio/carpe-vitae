@@ -11,10 +11,10 @@
     <meta name="author" content="">
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
-    <title>Carpe Vitae</title>
+    <title>About Carpe Vitae</title>
 
     <!-- Bootstrap core CSS -->
-    <link href="./bootstrap_files/bootstrap.min.css" rel="stylesheet">
+    <link href="http://getbootstrap.com/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="custom.css" rel="stylesheet">
 
     <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
@@ -53,8 +53,8 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="index.html">Home</a></li>
-            <li><a href="about.html">About</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li class="active"><a href="about.html">About</a></li>
             <li><a href="http://finetype.github.io/portfolio">Contact</a></li>
           </ul>
         </div><!--/.nav-collapse -->
@@ -65,56 +65,9 @@
 
       <div class="starter-template">
         <h1>Carpe Vitae</h1>
-        <!--<p class="lead">“There is not love of life without despair about life.”</p>-->
-
-        <!--start date picker -->
-        <p>When is your birthdate?</p>
-        <div class="container">
-          <div class="row">
-            <div class='col-sm-6 center-block'style="padding-right: 75px; padding-left:15px;">
-              <div class="form-group">
-                <div class='input-group date' id='datetimepicker1'>
-                  <input type='text' class="form-control" id="birthday"/>
-                  <span class="input-group-addon">
-                    <span class="glyphicon glyphicon-calendar"></span>
-                  </span>
-                </div>
-                <br/>
-                <p>How optimistic to be about life expectancy?</p>
-                <input id="optimism" type="range" style="width: 200px; margin-left:auto; margin-right:auto;"/>
-                <br />
-                <form id="timeScale">
-                  <input type="radio" name="timeP" value="years" class="timeScale">Years
-                  <input type="radio" name="timeP" value="months" class="timeScale">Months
-                  <input type="radio" name="timeP" value="weeks" class="timeScale">Weeks
-                  <input type="radio" name="timeP" value="days" class="timeScale">Days 
-                  </form>
-                <br/>
-                <input type="button" value="show me" onclick="drawLife()" style="color:black;"/>
-                <br /><br />
-                <p class="results"></p>
-              </div>
-            </div>
-            <script type="text/javascript">
-              $(function () {
-                $('#datetimepicker1').datetimepicker();
-              });
-            </script>
-          </div>
-        </div>
-        <!--    
-        <svg width="300" height="180">
-        <circle cx="30"  cy="50" r="25" />
-        <rect x="130" y="80" width="40" height="40" class="fancy" />
-        </svg> -->
+        <p class="lead">Inspired by Wait But Why's famous post, <a href="http://waitbutwhy.com/2014/05/life-weeks.html">here.</a></p>
       </div>
     </div><!-- /.container -->
-
-    <div class="container">
-      <div class="svgContainer">
-        
-      </div>
-    </div>
 
 
     <!-- Bootstrap core JavaScript
@@ -123,7 +76,7 @@
     <!-- // <script src="./bootstrap_files/jquery.min.js"></script> -->
     <script src="./bootstrap_files/bootstrap.min.js"></script>
     <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <!-- // <script src="./bootstrap_files/ie10-viewport-bug-workaround.js"></script> -->
+    <script src="./bootstrap_files/ie10-viewport-bug-workaround.js"></script>
     <script src="./custom.js"></script>
 
 </body></html>

@@ -76,3 +76,9 @@ also could produce likely life outcomes
 
 expected happiness curve?
 
+----
+
+stage 5:
+
+zoomable treemaps, lets you zoom in on any individual year, etc.:
+http://bost.ocks.org/mike/treemap/
