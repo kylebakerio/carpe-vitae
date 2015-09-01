@@ -1,0 +1,97 @@
+<!DOCTYPE html>  <meta charset="utf-8">
+<html>
+  <head>
+    <script type="text/javascript" src="/home/kajo/code/github/mvp/node_modules/d3/d3.js"></script>
+  </head>
+
+  <body>
+    <p>When is your birthday?</p>
+    <input type="text"/>
+    <br/>
+    <p>hi</p>
+    <script>
+      var spot = [10,10]
+      var years = []
+      for (var i = 1989; i < 2079; i++){
+        window.years.push([i,1,2,3,4,5,6,7,8,9,10,11,12])
+      }
+
+      var box = d3.select("body")
+       .append("svg")
+       .attr("width",800)
+       .attr("height",800)
+       .style("border", "1px solid black");
+
+
+      var circs = box
+        .selectAll("circle")
+        .data(years)
+        .enter()
+        .append("circle")
+        .transition()
+        .attr("cx", function(year,i){
+          spot[0] = (i%10 === 0 ? 50 : spot[0] + 50)
+          return spot[0]
+        })
+        .transition()
+        .attr("cy", function(year,i){
+          if (i % 10 === 0) spot[1]+=50
+          return spot[1]
+        })
+        .attr("r", 17.5)
+        .style("fill","black")
+
+
+      // var p = d3.select("body").selectAll("p")
+      //   .data(years)
+      //   .enter()
+      //   .append("p")
+      //   .text(function(d){return d[0]})
+    </script>
+
+       <!--    <svg width="300" height="180">
+      <circle cx="30"  cy="50" r="25" />
+      <rect x="130" y="80" width="40" height="40" class="fancy" />
+    </svg> -->
+
+  </body>
+</html>
+
+    <!-- <script>
+
+    //   d3.select("body").append("svg");
+
+    //   var months = ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]
+
+    //   var now = [2015, "Aug"]
+
+    //   var birth = [1989, "Dec"]
+
+    //   var age = 90
+          [{[][]}]
+    //   function makeLife(birth,age){
+    //     var life = [];
+    //     for (var i = birth[0]; i < birth[0] + age; i+=10){
+    //       for (var j = i; j < i+10; j++){
+    //         life[j] = {
+    //           "Jan": [],
+    //           "Feb": [],
+    //           "Mar": [],
+    //           "Apr": [],
+    //           "May": [],
+    //           "Jun": [],
+    //           "Jul": [],
+    //           "Aug": [],
+    //           "Sep": [],
+    //           "Oct": [],
+    //           "Nov": [],
+    //           "Dec": []
+    //         }
+    //         // console.log([j, months])
+    //       }
+    //     }
+    //     return life
+    //   }
+
+    //   var aLife = makeLife(birth, age)
+    // </script> -->

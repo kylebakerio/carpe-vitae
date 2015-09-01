@@ -1,0 +1,20 @@
+{
+  "name": "wait-but-why",
+  "version": "0.0.1",
+  "description": "an interactive representation of life",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "life",
+    "graph",
+    "d3",
+    "visualization"
+  ],
+  "author": "kyle baker",
+  "license": "MIT",
+  "dependencies": {
+    "d3": "^3.5.6"
+  }
+}

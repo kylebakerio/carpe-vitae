@@ -1,0 +1,78 @@
+
+
+
+chat client
+
+
+
+command runner
+
+
+
+Gant chart generator/interface
+
+
+
+file viewer
+
+
+
+wait but why visualization
+
+
+
+web crawler
+
+
+
+ghost.io blog
+
+
+---======---
+
+#wait but why's life chart
+
+stage 1:
+
+ask for birthday.
+
+produce grid of years.
+
+---
+
+stage 2:
+
+button at top switches to months, weeks, days, hours, minutes, seconds, milliseconds view.
+
+countdown of miliseconds in top right.
+
+live decolorization as time goes by.
+
+----
+
+stage 3:
+
+each item should be clickable;
+
+when clicked, should expand to be editable.
+
+can be colored, named.
+
+should be able to select a range at once, to color chunks of life.
+
+----
+
+stage 4:
+
+database/persistence
+
+should be able to sign in and save your edits
+
+questionaire to produce expected life length
+
+rerender data as alternative visualizations
+
+also could produce likely life outcomes
+
+expected happiness curve?
+
