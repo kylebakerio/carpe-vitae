@@ -8,16 +8,16 @@ svg {
   margin-left:auto;
   margin-right:auto;
 }
-/*
+
 body {
-  background-color:black !important; 
+  background-color: #333333 !important; 
   color:white !important;
 }
 
 .dropdown-menu {
   color:black !important;
 }
-*/
+
 
 .clicked {
   fill: rgb(128, 200, 128) !important;
