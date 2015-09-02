@@ -23,8 +23,8 @@ var buttonActions = {
 function drawLife(){
   scale = $( 'input.timeScale:checked' ).val();
   optimism = $('#optimism')[0].value;
-  // birthday.year = $('#birthday').val().split("/")[2].slice(0,4)
   debugger;
+  // birthday.year = $('#birthday').val().split("/")[2].slice(0,4)
   currentAge = (now.format("YYYY") - birthday.year)
   console.log(currentAge)
   timeLeft = 90 * optimism/100;
@@ -33,7 +33,7 @@ function drawLife(){
 
   window.life = {years:[]}
   for (var i = birthday.year; i < (birthday.year + currentAge + timeLeft); i++){
-    console.log(buttonActions[scale],life.years)
+    console.log("i")
     window.life.years.push([i,1,2,3,4,5,6,7,8,9,10,11,12])
   }
 
