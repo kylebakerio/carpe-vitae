@@ -19,7 +19,7 @@ function drawLife(){
   currentAge = (now.format("YYYY") - birthday.year);
   console.log(currentAge);
   ageAtDeath = 120 * optimism/100;
-  timeLeft = ( Math.floor(ageAtDeath - currentAge < currentAge ? 0 : ageAtDeath - currentAge) );
+  timeLeft = ( Math.floor(ageAtDeath - currentAge < 0 ? 0 : ageAtDeath - currentAge) );
   console.log(timeLeft + " is timeLeft");
   console.log("time left: " + timeLeft);
   percentLived = Math.floor( (100/( (timeLeft + currentAge) / currentAge) ) * 100 ) /100;
@@ -44,7 +44,7 @@ function drawLife(){
    .append("svg")
    .attr("id","theCanvas")
    .attr("width",800)
-   .attr("height",700);
+   .attr("height",700); //eventually, make this responsive, so you only get scroll bar if truly necessary... 
    // .style("border", "1px solid black");
 
   var circs = box
