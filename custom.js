@@ -1,13 +1,4 @@
 window.life = {years:[]};
-var birthday = {
-  whole: "12/30/1989 11:00 PM",
-  year: 1989,
-  month: 12,
-  day: 30,
-  hour: null,
-  minutes: null,
-  second: null
-};
 var optimism = 100;
 var now = moment();
 var currentAge;
@@ -21,23 +12,27 @@ var buttonActions = {
 };
 
 function drawLife(){
-  scale = $( 'input.timeScale:checked' ).val();
+  scale = $( 'input.timeScale:checked' ).val(); //from the radio buttons
   optimism = $('#optimism')[0].value;
-  birthday.year = parseInt($('#birthday').val().split("/")[2].slice(0,4));
+  newBirthday = moment($('#birthday').val().split(" ")[0], "MM-DD-YYYY"); //should start using this
+  birthday.year = parseInt(newBirthday.format('YYYY')); //using this for mvp
   currentAge = (now.format("YYYY") - birthday.year);
   console.log(currentAge);
-  timeLeft = 90 * optimism/100;
+  ageAtDeath = 120 * optimism/100;
+  timeLeft = ( Math.floor(ageAtDeath - currentAge < currentAge ? 0 : ageAtDeath - currentAge) );
+  console.log(timeLeft + " is timeLeft");
   console.log("time left: " + timeLeft);
-  percentLived = (100/((timeLeft + currentAge) / currentAge)).toFixed(2);
+  percentLived = Math.floor( (100/( (timeLeft + currentAge) / currentAge) ) * 100 ) /100;
+  percentLived = percentLived > 100 ? 100 : percentLived;
 
   console.log(birthday.year + currentAge + timeLeft);
   window.life = {years:[]};
   for (var i = birthday.year; i < (birthday.year + currentAge + timeLeft); i++){
-    console.log(i);
+    if (i > birthday.year + 120) break;
     window.life.years.push([i,1,2,3,4,5,6,7,8,9,10,11,12]);
   }
 
-  console.log(buttonActions[scale]);
+  console.log(scale);
 
   //these are coordinates for the squares
   var spot = [0,15];
@@ -49,7 +44,7 @@ function drawLife(){
    .append("svg")
    .attr("id","theCanvas")
    .attr("width",800)
-   .attr("height",600);
+   .attr("height",700);
    // .style("border", "1px solid black");
 
   var circs = box
@@ -75,7 +70,7 @@ function drawLife(){
     .duration(2000)
     .style("fill-opacity","1")
     .style("fill",function(d){
-      return (d[0] - currentAge) > birthday.year ? "orange" : "grey";
+      return (d[0] - currentAge) >= birthday.year ? "orange" : "grey";
     });
 
   // var overlay = circs.append("text").text(function (d) {
@@ -92,6 +87,7 @@ function drawLife(){
 
   $('rect').on('click', function(){ $(this).css('fill', 'rgb(128, 200, 128)'); });
   $('.results').html(
+    "Current Age: <strong>" + currentAge + "</strong><br/>" +
     "Years left of life: <strong>" + timeLeft +
     "</strong><br/>Presumed total length of life: <strong>" + (currentAge + timeLeft) +
     " years</strong><br/>Percent of life lived: <strong>" + percentLived +
