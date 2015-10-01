@@ -17,7 +17,8 @@ function drawLife(){
   optimism      = $('#optimism')[0].value;
   newBirthday   = moment($('#birthday').val().split(" ")[0], "MM-DD-YYYY"); //should start using this
   birthday.year = parseInt(newBirthday.format('YYYY')); //using this for mvp
-  currentAge    = (now.format("YYYY") - birthday.year);
+  now           = new moment();
+  currentAge    = (now.format("YYYY") - birthday.year); // now.subtract()
   timeLeft      = Math.floor((120 - currentAge)* optimism/100);
   ageAtDeath    = currentAge + timeLeft;
   percentLived  = Math.floor((100/(ageAtDeath/currentAge))*100)/100;
@@ -82,7 +83,7 @@ function drawLife(){
       .style("fill",function(d){
         return (d[0] - currentAge) >= birthday.year ? "orange" : "grey";
       });
-    
+    }
     // trying to overlay text of year... grrr
     //
     // // console.log(rects)
