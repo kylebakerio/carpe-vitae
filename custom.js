@@ -25,7 +25,10 @@ function drawLife(){
   window.life = {years:[]};
   for (var i = birthday.year; i < (birthday.year + currentAge + timeLeft); i++){
     // to prevent accidental very large loops during development:
-    if (i > birthday.year + 300) break;
+    if (i > birthday.year + 121) {
+      alert("error: longer than 121.");
+      break;
+    }
     window.life.years.push([i,1,2,3,4,5,6,7,8,9,10,11,12]);
   }
 
@@ -38,7 +41,7 @@ function drawLife(){
   if (alreadyDrawn) {
     $('.svgContainer').animate({"opacity": "0"}, 1000, function(){
       $('.svgContainer').html(""); 
-      drawGrid()
+      drawGrid();
     });
   } else {
     alreadyDrawn = true;
@@ -79,19 +82,31 @@ function drawLife(){
       .style("fill",function(d){
         return (d[0] - currentAge) >= birthday.year ? "orange" : "grey";
       });
-    }
-
-  // var overlay = rects.append("text").text(function (d) {
-  //     return d[0]-birthday.year;
-  //   })
-  //   .attr("x",function (d) {
-  //     return //x;
-  //   })
-  //   .attr("y",function (d) {
-  //     return //y;
-  //   })
-  //   .attr('text-anchor', 'middle')
-  //   .style("fill", "white").style("stroke-width", 1.5);
+    
+    // trying to overlay text of year... grrr
+    //
+    // // console.log(rects)
+    // var overlay = box
+    //   // .selectAll('g')
+    //   .data($('rect'))
+    //   .enter()
+    //   .append("text")
+    //   .text(function (d,i) {
+    //     console.log(life.years[i][0], d);
+    //     // console.log(d[0][0][0][__data__][0])
+    //     return life.years[i][0];
+    //   })
+    //   .attr("x",function (d) {
+    //     console.log('d.x: ' + d.x)
+    //     return d.x;
+    //   })
+    //   .attr("y",function (d) {
+    //     return d.y;
+    //   })
+    //   .attr('text-anchor', 'middle')
+    //   .style("fill", "black")
+    //   .style("stroke-width", 1.5);
+    // }
 
   $('rect').on('click', function(){ $(this).css('fill', 'rgb(128, 200, 128)'); });
   $('.results').html(
