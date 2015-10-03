@@ -19,11 +19,12 @@ function drawLife(){
   birthday.year = parseInt(newBirthday.format('YYYY')); //using this for mvp
   now           = new moment();
   currentAge    = (now.format("YYYY") - birthday.year); // now.subtract()
-  currentAge    = currentAge < 0 ? 0 : currentAge;
+  currentAge    = currentAge < 0 ? 0 : currentAge; // handles exception for dates in the future
   timeLeft      = Math.floor((120 - currentAge)* optimism/100);
-  timeLeft      = timeLeft < 0 ? 0 : timeLeft;
+  timeLeft      = timeLeft < 0 ? 0 : timeLeft; // handles exception for dates in the past
   ageAtDeath    = currentAge + timeLeft;
   percentLived  = Math.floor((100/(ageAtDeath/currentAge))*100)/100;
+  percentLived  = isNaN(percentLived) ? 0 : percentLived; // handles exception for 0 optimism for dates in the future
 
   window.life = {years:[]};
   for (var i = birthday.year; i < (birthday.year + currentAge + timeLeft); i++){
