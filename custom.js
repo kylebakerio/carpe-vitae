@@ -19,15 +19,17 @@ function drawLife(){
   birthday.year = parseInt(newBirthday.format('YYYY')); //using this for mvp
   now           = new moment();
   currentAge    = (now.format("YYYY") - birthday.year); // now.subtract()
+  currentAge    = currentAge < 0 ? 0 : currentAge;
   timeLeft      = Math.floor((120 - currentAge)* optimism/100);
+  timeLeft      = timeLeft < 0 ? 0 : timeLeft;
   ageAtDeath    = currentAge + timeLeft;
   percentLived  = Math.floor((100/(ageAtDeath/currentAge))*100)/100;
 
   window.life = {years:[]};
   for (var i = birthday.year; i < (birthday.year + currentAge + timeLeft); i++){
     // to prevent accidental very large loops during development:
-    if (i > birthday.year + 121) {
-      alert("error: longer than 121.");
+    if (i > birthday.year + 3000) {
+      alert("loop limit: not allowed to render ages past 3000.");
       break;
     }
     window.life.years.push([i,1,2,3,4,5,6,7,8,9,10,11,12]);
