@@ -27,7 +27,7 @@ function drawLife(){
     timeLeft      = timeLeft < 0 ? 0 : timeLeft; // handles exception for dates in the past
     ageAtDeath    = currentAge + timeLeft;
     percentLived  = Math.floor((100/(ageAtDeath/currentAge))*100)/100;
-    percentLived  = isNaN(percentLived) ? 0 : percentLived; // handles exception for 0 optimism for dates in the future
+    percentLived  = isNaN(percentLived) ? 0 : percentLived; // handles exception for 0 optimism for dates in the future (i.e., 0*0)
 
     window.life = {years:[]};
     for (var i = birthday.year; i < (birthday.year + currentAge + timeLeft); i++){
@@ -40,7 +40,7 @@ function drawLife(){
     }
 
     console.log(radio[scale]);
-
+    if (scale !== "years") alert("currently only 'years' are supported, but we'll add support for other timescales soon. :)")
     //these are coordinates for the squares
     var location = {x:0,y:15};
 
