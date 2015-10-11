@@ -34,3 +34,11 @@ body {
 /*rect {
   fill: rgba(128, 200, 128, 0);
 }*/
+
+div.starter-template {
+  padding:2px !important;
+}
+
+h1 {
+  margin:3px !important;
+}

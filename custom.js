@@ -1,8 +1,6 @@
-window.life      = {years:[]};
+  window.life      = {years:[]};
 var optimism     = 100;
 var now          = moment();
-var currentAge;
-var percentLived;
 var alreadyDrawn = false;
 
 var radio = {
@@ -14,33 +12,76 @@ var radio = {
 
 function drawLife(){
   if ($('#birthday').val() === '') {
-    alert("Please enter a birthdate.");
+    $('.svgContainer').html("<p.starter-template>Please enter a birthdate.</p>"); 
+    window.alreadyDrawn = true;
   } else {
-    scale         = $( 'input.timeScale:checked' ).val(); //from the radio buttons
-    optimism      = $('#optimism')[0].value;
-    newBirthday   = moment($('#birthday').val().split(" ")[0], "MM-DD-YYYY"); //should start using this
-    birthday.year = parseInt(newBirthday.format('YYYY')); //using this for mvp
-    now           = new moment();
-    currentAge    = (now.format("YYYY") - birthday.year); // now.subtract()
-    currentAge    = currentAge < 0 ? 0 : currentAge; // handles exception for dates in the future
-    timeLeft      = Math.floor((120 - currentAge)* optimism/100);
-    timeLeft      = timeLeft < 0 ? 0 : timeLeft; // handles exception for dates in the past
-    ageAtDeath    = currentAge + timeLeft;
-    percentLived  = Math.floor((100/(ageAtDeath/currentAge))*100)/100;
-    percentLived  = isNaN(percentLived) ? 0 : percentLived; // handles exception for 0 optimism for dates in the future (i.e., 0*0)
+    var scale      = $('input.timeScale:checked').val(); //from the radio buttons
+    var size,rowWidth;
 
-    window.life = {years:[]};
-    for (var i = birthday.year; i < (birthday.year + currentAge + timeLeft); i++){
-      // to prevent accidental very large loops during development:
-      if (i > birthday.year + 3000) {
-        alert("loop limit: not allowed to render ages past 3000.");
-        break;
-      }
-      window.life.years.push([i,1,2,3,4,5,6,7,8,9,10,11,12]);
+    if (scale === "years")  {
+      rowWidth   = 10;
+      size       = 35;
+      spacing    = 50;
+      multiplier = 1;
+      start      = 148;
+      speed      = 2000;
+      speed2     = 30;
+      extra      = 0;
+    } else if (scale === "months") {
+      rowWidth   = 36;
+      size       = 35*.33;
+      spacing    = 50*.33;
+      multiplier = 12;
+      start      = 108;
+      speed      = 1500;
+      speed2     = 10;
+      extra      = 70;
+    } else if (scale === "weeks")  {
+      rowWidth   = 52;
+      size       = 50*.2;
+      spacing    = 50*.4;
+      multiplier = 52;
+      start      = 10;
+      speed      = 200;
+      speed2     = 20;
+      extra      = 200;
+    } else if (scale === "days")   {
+      rowWidth   = 365;
+      size       = 35/12/4/7;
+      spacing    = 50*.02;
+      multiplier = 365;
+      start      = 0;
+      speed      = 30;
+      speed2     = 10;
+      extra      = 100;
     }
 
-    console.log(radio[scale]);
-    if (scale !== "years") alert("currently only 'years' are supported, but we'll add support for other timescales soon. :)")
+    var optimism      = $('#optimism')[0].value;
+    var newBirthday   = moment($('#birthday').val().split(" ")[0], "MM-DD-YYYY"); //should start using this
+    var birthYear     = parseInt(newBirthday.format('YYYY')); //using this for mvp
+    var now           = new moment();
+    var currentAge    = moment.duration(moment().diff(newBirthday))
+    var currentAgeYrs = currentAge.asYears() < 0 ? 0 : currentAge.asYears(); // handles exception for dates in the future
+    var timeLeft      = moment.duration((120*multiplier-Number(currentAge.as(scale)))*(optimism/100), scale) 
+    var timeLeftYrs   = timeLeft.asYears() < 0 ? 0 : timeLeft.asYears(); // handles exception for dates in the past
+    var ageAtDeath    = moment.duration(Number(currentAge.as(scale)) + Number(timeLeft.as(scale)), scale);
+    var ageAtDeathYrs = currentAgeYrs + timeLeftYrs;
+    var percentLived  = Math.floor((100/(ageAtDeathYrs/currentAgeYrs))*100)/100;
+        percentLived  = isNaN(percentLived) ? 0 : percentLived; // handles exception for 0 optimism for dates in the future (i.e., 0*0)
+
+    var tick = 0; 
+    window.life = [];
+    for (var i = 0; i < Math.floor(ageAtDeath.as(scale)); i++){
+      // to prevent accidental very large loops during development:
+      if (i > birthYear + 30000) {
+        alert("loop limit: not allowed to render datasets past 30k units. Your attempted unit size: " + ageAtDeath.as(scale));
+        break;
+      }
+      //tick = i % multiplier === 0 ? tick+1 : tick; //should stop using this
+      window.life.push([i]);
+    }
+    console.log(life.length)
+
     //these are coordinates for the squares
     var location = {x:0,y:15};
 
@@ -61,33 +102,33 @@ function drawLife(){
        .append("svg")
        .attr("id","theCanvas")
        .attr("width",800)
-       .attr("height", 50+(5*life.years.length));
+       .attr("height", extra+spacing+(5*life.length/multiplier));
        // .style("border", "1px solid black");
 
       var rects = box
         .selectAll("rect")
-        .data(life.years)
+        .data(life)
         .enter()
         .append("rect")
         .attr("x", function(year,i){
-          location.x = (i%10 === 0 ? 168 : location.x + 50);
+          location.x = (i%rowWidth === 0 ? start : location.x + spacing);
           return location.x;
         })
         .attr("y", function(year,i){
-          if (i % 10 === 0 && i !== 0) location.y+=50;
+          if (i % rowWidth === 0 && i !== 0) location.y+=spacing;
           return location.y;
         })
-        .attr("width", 35)
-        .attr("height", 35)
+        .attr("width", size)
+        .attr("height", size)
         .style("fill-opacity","0")
         .transition()
         .delay(function(d, i) {
-          return i * 30;
+          return i * speed2;
         })
-        .duration(2000)
+        .duration(speed)
         .style("fill-opacity","1")
         .style("fill",function(d){
-          return (d[0] - currentAge) >= birthday.year ? "orange" : "grey";
+          return (d[0] >= Math.floor(currentAge.as(scale)) ? "orange" : "grey");
         });
       }
       // trying to overlay text of year... grrr
@@ -99,9 +140,9 @@ function drawLife(){
       //   .enter()
       //   .append("text")
       //   .text(function (d,i) {
-      //     console.log(life.years[i][0], d);
+      //     console.log(life[i][0], d);
       //     // console.log(d[0][0][0][__data__][0])
-      //     return life.years[i][0];
+      //     return life[i][0];
       //   })
       //   .attr("x",function (d) {
       //     console.log('d.x: ' + d.x)
@@ -114,14 +155,13 @@ function drawLife(){
       //   .style("fill", "black")
       //   .style("stroke-width", 1.5);
       // }
-
     $('rect').on('click', function(){ $(this).css('fill', 'rgb(128, 200, 128)'); });
     $('.results').html(
-      "<br/>Current Age: <strong>" + currentAge + "</strong>" +
-      "<br/>Years left of life: <strong>" + timeLeft + "</strong>"  +
-      "<br/>Date of Death: <strong>" + (Math.ceil(parseInt(now.format("YYYY")) + timeLeft)) + "</strong>" +
+      "<br/>Current Age: <strong>" + Math.floor(currentAgeYrs) + "</strong>" +
+      "<br/>Years left of life: <strong>" + timeLeftYrs + "</strong>"  +
+      "<br/>Date of Death: <strong>" + (Math.ceil(parseInt(now.format("YYYY")) + timeLeftYrs)) + "</strong>" +
       "<br/>Percent of life lived: <strong>" + percentLived + "%</strong>" +
-      "<br/>Presumed total length of life: <strong>" + (currentAge + timeLeft) + " years</strong>" 
+      "<br/>Presumed total length of life: <strong>" + Math.floor(currentAgeYrs + timeLeftYrs) + " years</strong>" 
     );
   }
 }
