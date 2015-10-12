@@ -53,12 +53,12 @@ function drawLife(){
     } else if (scale === "days")   {
       yearsPerRow = 1;
       rowWidth    = 365;
-      size        = 2;
-      spacing     = 3;
+      size        = 3;
+      spacing     = 5;
       multiplier  = 365;
       start       = 0;
-      duration    = 1000;
-      delay       = 5;
+      duration    = 2000;
+      delay       = 1;
       extra       = 100;
     }
 
@@ -106,7 +106,7 @@ function drawLife(){
       var box = d3.select(".svgContainer")
         .append("svg")
         .attr("id","theCanvas")
-        .attr("width",1000)
+        .attr("width",1700)
         .attr("height", (spacing*2)+(life.length/multiplier * (size + spacing) / yearsPerRow) ) 
         // .attr("height", extra+spacing+(5*life.length/multiplier));
         // .style("border", "1px solid black");
