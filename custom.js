@@ -1,4 +1,4 @@
-  window.life      = {years:[]};
+var life         = {years:[]};
 var optimism     = 100;
 var now          = moment();
 var alreadyDrawn = false;
@@ -10,50 +10,56 @@ var radio = {
   days: "Days"
 };
 
+var size,rowWidth,spacing,multiplier,start,duration,delay ,extra;
+
 function drawLife(){
   if ($('#birthday').val() === '') {
-    $('.svgContainer').html("<p.starter-template>Please enter a birthdate.</p>"); 
+    $('.svgContainer').html("<p class='no_birthday starter-template'>Please enter a birthdate.</p>");
+    $('.no_birthday').fadeTo(500, 1); 
     window.alreadyDrawn = true;
   } else {
-    var scale      = $('input.timeScale:checked').val(); //from the radio buttons
-    var size,rowWidth;
 
-    if (scale === "years")  {
-      rowWidth   = 10;
-      size       = 35;
-      spacing    = 50;
-      multiplier = 1;
-      start      = 148;
-      speed      = 2000;
-      speed2     = 30;
-      extra      = 0;
+    var scale     = $('input.timeScale:checked').val(); //from the radio buttons
+    if (scale  === "years")       {
+      yearsPerRow = 10;
+      rowWidth    = 10;
+      size        = 35;
+      spacing     = 50;
+      multiplier  = 1;
+      start       = 235;
+      duration    = 2000;
+      delay       = 30;
+      extra       = 0;
     } else if (scale === "months") {
-      rowWidth   = 36;
-      size       = 35*.33;
-      spacing    = 50*.33;
-      multiplier = 12;
-      start      = 108;
-      speed      = 1500;
-      speed2     = 10;
-      extra      = 70;
+      yearsPerRow = 3;
+      rowWidth    = 36;
+      size        = 35*.33;
+      spacing     = 50*.33;
+      multiplier  = 12;
+      start       = 108;
+      duration    = 1000;
+      delay       = 10;
+      extra       = 70;
     } else if (scale === "weeks")  {
-      rowWidth   = 52;
-      size       = 50*.2;
-      spacing    = 50*.4;
-      multiplier = 52;
-      start      = 10;
-      speed      = 200;
-      speed2     = 20;
-      extra      = 200;
+      yearsPerRow = 1;
+      rowWidth    = 52;
+      size        = 50*.2;
+      spacing     = 50*.3;
+      multiplier  = 52;
+      start       = 10;
+      duration    = 1000;
+      delay       = 5;
+      extra       = 200;
     } else if (scale === "days")   {
-      rowWidth   = 365;
-      size       = 35/12/4/7;
-      spacing    = 50*.02;
-      multiplier = 365;
-      start      = 0;
-      speed      = 30;
-      speed2     = 10;
-      extra      = 100;
+      yearsPerRow = 1;
+      rowWidth    = 365;
+      size        = 2;
+      spacing     = 3;
+      multiplier  = 365;
+      start       = 0;
+      duration    = 30;
+      delay       = 10;
+      extra       = 100;
     }
 
     var optimism      = $('#optimism')[0].value;
@@ -69,7 +75,7 @@ function drawLife(){
     var percentLived  = Math.floor((100/(ageAtDeathYrs/currentAgeYrs))*100)/100;
         percentLived  = isNaN(percentLived) ? 0 : percentLived; // handles exception for 0 optimism for dates in the future (i.e., 0*0)
 
-    var tick = 0; 
+    var tick    = 0; 
     window.life = [];
     for (var i = 0; i < Math.floor(ageAtDeath.as(scale)); i++){
       // to prevent accidental very large loops during development:
@@ -80,7 +86,6 @@ function drawLife(){
       //tick = i % multiplier === 0 ? tick+1 : tick; //should stop using this
       window.life.push([i]);
     }
-    console.log(life.length)
 
     //these are coordinates for the squares
     var location = {x:0,y:15};
@@ -99,11 +104,12 @@ function drawLife(){
     function drawGrid(){
       $('.svgContainer').css({"opacity": "1"})
       var box = d3.select(".svgContainer")
-       .append("svg")
-       .attr("id","theCanvas")
-       .attr("width",800)
-       .attr("height", extra+spacing+(5*life.length/multiplier));
-       // .style("border", "1px solid black");
+        .append("svg")
+        .attr("id","theCanvas")
+        .attr("width",1000)
+        .attr("height", (spacing*2)+(life.length/multiplier * (size + spacing) / yearsPerRow) ) 
+        // .attr("height", extra+spacing+(5*life.length/multiplier));
+        // .style("border", "1px solid black");
 
       var rects = box
         .selectAll("rect")
@@ -123,9 +129,9 @@ function drawLife(){
         .style("fill-opacity","0")
         .transition()
         .delay(function(d, i) {
-          return i * speed2;
+          return i * delay ;
         })
-        .duration(speed)
+        .duration(duration)
         .style("fill-opacity","1")
         .style("fill",function(d){
           return (d[0] >= Math.floor(currentAge.as(scale)) ? "orange" : "grey");
@@ -158,10 +164,11 @@ function drawLife(){
     $('rect').on('click', function(){ $(this).css('fill', 'rgb(128, 200, 128)'); });
     $('.results').html(
       "<br/>Current Age: <strong>" + Math.floor(currentAgeYrs) + "</strong>" +
-      "<br/>Years left of life: <strong>" + timeLeftYrs + "</strong>"  +
+      "<br/>Years left of life: <strong>" + timeLeftYrs.toFixed(2) + "</strong>"  +
       "<br/>Date of Death: <strong>" + (Math.ceil(parseInt(now.format("YYYY")) + timeLeftYrs)) + "</strong>" +
       "<br/>Percent of life lived: <strong>" + percentLived + "%</strong>" +
       "<br/>Presumed total length of life: <strong>" + Math.floor(currentAgeYrs + timeLeftYrs) + " years</strong>" 
     );
+    $('.results').fadeTo(1000,1);
   }
 }

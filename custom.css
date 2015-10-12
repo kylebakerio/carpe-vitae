@@ -42,3 +42,11 @@ div.starter-template {
 h1 {
   margin:3px !important;
 }
+
+p.no_birthday {
+  opacity: 0;
+}
+
+.results {
+  opacity: 0;
+}
