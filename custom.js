@@ -43,10 +43,10 @@ function drawLife(){
     } else if (scale === "weeks")  {
       yearsPerRow = 1;
       rowWidth    = 52;
-      size        = 50*.2;
-      spacing     = 50*.3;
+      size        = 8;
+      spacing     = 11;
       multiplier  = 52;
-      start       = 10;
+      start       = 150;
       duration    = 1000;
       delay       = 5;
       extra       = 200;
