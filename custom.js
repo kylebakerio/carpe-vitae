@@ -19,7 +19,7 @@ function drawLife(){
     window.alreadyDrawn = true;
   } else {
 
-    var scale     = $('input.timeScale:checked').val(); //from the radio buttons
+    var scale = $('input.timeScale:checked').val(); //from the radio buttons
     if (scale  === "years")       {
       yearsPerRow = 10;
       rowWidth    = 10;
@@ -57,8 +57,8 @@ function drawLife(){
       spacing     = 3;
       multiplier  = 365;
       start       = 0;
-      duration    = 30;
-      delay       = 10;
+      duration    = 1000;
+      delay       = 5;
       extra       = 100;
     }
 
@@ -75,12 +75,12 @@ function drawLife(){
     var percentLived  = Math.floor((100/(ageAtDeathYrs/currentAgeYrs))*100)/100;
         percentLived  = isNaN(percentLived) ? 0 : percentLived; // handles exception for 0 optimism for dates in the future (i.e., 0*0)
 
-    var tick    = 0; 
     window.life = [];
-    for (var i = 0; i < Math.floor(ageAtDeath.as(scale)); i++){
+    for (var i = 0; i < ageAtDeath.as(scale); i++){
+      console.log("something")
       // to prevent accidental very large loops during development:
-      if (i > birthYear + 30000) {
-        alert("loop limit: not allowed to render datasets past 30k units. Your attempted unit size: " + ageAtDeath.as(scale));
+      if (/*i > birthYear + 30000*/ ageAtDeath.as(scale) > 30000) {
+        alert("loop limit: not allowed to render datasets past 30k units. Your attempted unit size: " + Math.floor(ageAtDeath.as(scale)));
         break;
       }
       //tick = i % multiplier === 0 ? tick+1 : tick; //should stop using this
@@ -161,6 +161,7 @@ function drawLife(){
       //   .style("fill", "black")
       //   .style("stroke-width", 1.5);
       // }
+      console.log(percentLived)
     $('rect').on('click', function(){ $(this).css('fill', 'rgb(128, 200, 128)'); });
     $('.results').html(
       "<br/>Current Age: <strong>" + Math.floor(currentAgeYrs) + "</strong>" +
