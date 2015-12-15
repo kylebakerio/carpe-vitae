@@ -60,22 +60,20 @@
         duration    = 2000;
         delay       = 1;
         if (window.innerWidth < 1850) {
-          alert("small screen")
+          // alert("small screen")
           squareSize= 2;
           spacing   = 1;
         }
       }
 
-      // ideally it should be this, but spacing is non-intuitive and doesn't
-      // work this way:
       rowWidth = (rowSize * squareSize) + ((rowSize - 1) * spacing);
-      // rowWidth = (spacing * 9) + squareSize;
       start    = ($('.svgContainer').width() - rowWidth)/2;
-      // not seeing start here.
-      alert("div size: " + $('.svgContainer').width() + ", rowWidth " + rowWidth + ", start: " + start);
+      
+      // diagnostics:
+      // alert("div size: " + $('.svgContainer').width() + ", rowWidth " + rowWidth + ", start: " + start);
 
       window.optimism      = $('#optimism')[0].value;
-      window.birthdate     = moment($('#birthday').val(), "MM/DD/YYYY hh:mm A"); //should start using this
+      window.birthdate     = moment($('#birthday').val(), "MM/DD/YYYY hh:mm A");
       window.currentAge    = moment.duration(moment().diff(birthdate));
       window.timeLeft      = moment.duration((120*multiplier-Number(currentAge.as(scale)))*(optimism/100), scale) 
       window.ageAtDeath    = moment.duration(Number(currentAge.as(scale)) + Number(timeLeft.as(scale)), scale);
