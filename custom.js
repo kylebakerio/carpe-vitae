@@ -104,8 +104,6 @@
   function drawStats() {
     console.log("drawStats")
 
-    $('rect').on('click', function(){ $(this).css('fill', 'rgb(128, 200, 128)'); });
-    
     $('.results').html(
       "<table class='table'>" +
         "<tr>" +
@@ -140,19 +138,6 @@
       "<strong> Grey squares represent units of life already lived, gold represents units remaining. </strong>" +
       "<br /> <br />" + comment       
     )
-
-    // $('.results').html(
-    //   "<strong>Grey squares represent units of life already lived, gold represents units remaining.</strong>" +
-    //   "<br />" + comment +
-    //   "<br/>Current Age: <strong>" + Math.floor(currentAge.asYears()) + "</strong>" +
-    //   "<br/>Time left: <strong>" + moment().add(timeLeft).fromNow(true) + "</strong>"  +
-    //   "<br/>Weeks of life left: <strong>" + Math.floor(timeLeft.asWeeks()) + "</strong>" +
-    //   "<br/>Days of life left: <strong>" + Math.floor(timeLeft.asDays()) + "</strong>" +
-    //   "<br/>Time & Date of Death: <strong>" + moment().add(timeLeft).format('MM/DD/YYYY hh:mm a') + "</strong>" +
-    //   "<br/>Percent of life lived: <strong>" + percentLived + "%</strong>" +
-    //   "<br/>Presumed total length of life: <strong>" + birthdate.from(moment().add(timeLeft),true) + "</strong>" 
-    // );
-
     $('.results').fadeTo(1000,1);
   }
 
@@ -177,10 +162,6 @@
       .enter()
       .append("rect")
       .attr("x", function(unit,i){
-        // note that this line means that instead of squareSize + spacing,
-        // it is just spacing--so, for years, it's left of one square to
-        // left of next square is 50px away, not 50+35. This should be 
-        // changed. 
         loc.x = (i%rowSize === 0 ? start : loc.x + spacing + squareSize);
         return loc.x;
       })
@@ -200,6 +181,10 @@
       .style("fill",function(d){
         return (d >= Math.floor(currentAge.as(scale)) ? "orange" : "grey");
       });
+
+    $('rect').on('click', function(){ 
+      $(this).css('fill', 'rgb(128, 200, 128)'); 
+    });
   }
 
     // trying to overlay text on unit... grrr

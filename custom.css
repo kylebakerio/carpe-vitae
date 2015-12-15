@@ -1,40 +1,9 @@
 
-.center-block {
-  float: none !important
-}
-
-svg {
-  display:block;
-  margin-left:auto;
-  margin-right:auto;
-}
-
 body {
   background-color: #333333 !important; 
   color:white !important;
+  padding-top: 50px;  
 }
-
-.dropdown-menu {
-  color:black !important;
-}
-
-
-.clicked {
-  fill: rgb(128, 200, 128) !important;
-}
-
-body {
-  padding-top: 50px;
-}
-
-.starter-template {
-  padding: 40px 15px;
-  text-align: center;
-}
-
-/*rect {
-  fill: rgba(128, 200, 128, 0);
-}*/
 
 div.starter-template {
   padding: 2px !important;
@@ -47,20 +16,45 @@ h1 {
   font-family: 'Cinzel', serif !important;
 }
 
+td {
+  text-align: left;
+  min-width: 160px;
+}
+
 p.no_birthday {
   opacity: 0;
+}
+
+.center-block {
+  float: none !important
+}
+
+.dropdown-menu {
+  color:black !important;
+}
+
+
+.clicked {
+  fill: rgb(128, 200, 128) !important;
+}
+
+
+.starter-template {
+  padding: 40px 15px;
+  text-align: center;
 }
 
 .results {
   opacity: 0;
 }
 
-td {
-  text-align: left;
-  min-width: 160px;
-}
-
 .btn {
   background-color: gold;
   font-weight: bold;
+}
+
+svg {
+  display:block;
+  margin-left:auto;
+  margin-right:auto;
 }
