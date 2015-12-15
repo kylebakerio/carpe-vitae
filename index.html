@@ -7,8 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="Interactive Life Visualization Tool">
+    <meta name="author" content="Kyle Baker">
     <link rel="icon" href="http://getbootstrap.com/favicon.ico">
 
     <title>Carpe Vitae</title>
@@ -17,15 +17,7 @@
     <link href="./bootstrap_files/bootstrap.min.css" rel="stylesheet">
     <link href="custom.css" rel="stylesheet">
 
-    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-    <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
     <script src="./bootstrap_files/ie-emulation-modes-warning.js"></script>
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!--[if lt IE 9]>
-      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
     <script type="text/javascript" src="./node_modules/d3/d3.js"></script>
 
         <!-- date-time-picker stuff-->
@@ -66,7 +58,7 @@
         <h1>Carpe Vitae</h1>
         <!--<p class="lead">“There is not love of life without despair about life.”</p>-->
 
-        <!--start date picker -->
+        <!--start date picker component -->
         <p>When is your birthdate?</p>
         <div class="container">
           <div class="row">
@@ -94,34 +86,37 @@
                 <p class="results"></p>
               </div>
             </div>
+
             <script type="text/javascript">
               $(function () {
+                // botstrap component stuff
                 $('#datetimepicker1').datetimepicker();
               });
             </script>
+
           </div>
         </div>
-        <!--
-        <svg width="300" height="180">
-        <circle cx="30"  cy="50" r="25" />
-        <rect x="130" y="80" width="40" height="40" class="fancy" />
-        </svg> -->
+        <!-- end date picker component -->
+        
       </div>
+    
+      <div class="svgContainer"></div>
+    
     </div><!-- /.container -->
-
-    <!-- <div class="container"> -->
-      <div class="svgContainer">
-
-      </div>
-    <!-- </div> -->
+    
 
     <!-- Bootstrap core JavaScript
     ================================================== -->
     <!-- Placed at the end of the document so the pages load faster -->
-    <!-- // <script src="./bootstrap_files/jquery.min.js"></script> -->
     <script src="./bootstrap_files/bootstrap.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <!-- // <script src="./bootstrap_files/ie10-viewport-bug-workaround.js"></script> -->
+    <script src="./bootstrap_files/ie10-viewport-bug-workaround.js"></script>
     <script src="./custom.js"></script>
 
 </body></html>
+
+<!--
+<svg width="300" height="180">
+<circle cx="30"  cy="50" r="25" />
+<rect x="130" y="80" width="40" height="40" class="fancy" />
+</svg> 
+-->

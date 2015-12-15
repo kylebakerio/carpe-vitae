@@ -1,3 +1,5 @@
+// just some examples to reference how moment works.
+
 moment().add(7, 'days').add(1, 'months'); // with chaining
 moment().add({days:7,months:1}); // with object literal
 
