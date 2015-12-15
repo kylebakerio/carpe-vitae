@@ -54,16 +54,11 @@
         comment     = "Each row contains 365 days.";
         yearsPerRow = 1;
         rowSize     = 365;
-        squareSize  = 3;
-        spacing     = 2;
+        squareSize  = 2;
+        spacing     = 1;
         multiplier  = 365;
         duration    = 2000;
         delay       = 1;
-        if (window.innerWidth < 1850) {
-          // alert("small screen")
-          squareSize= 2;
-          spacing   = 1;
-        }
       }
 
       rowWidth = (rowSize * squareSize) + ((rowSize - 1) * spacing);
@@ -129,6 +124,8 @@
   function drawGrid(){
     console.log("drawGrid")
     var loc = {x:0,y:15};
+    var rowCount = life.length/multiplier/yearsPerRow;
+    if (rowCount < 1) rowCount = 1;
 
     $('.svgContainer').css({"opacity": "1"})
     var box = d3.select(".svgContainer")
@@ -136,7 +133,7 @@
       .attr("id","theCanvas")
       .attr("width",$('.svgContainer').width())
       .attr("height", 
-        (squareSize + spacing) * (life.length/multiplier/yearsPerRow)
+        ((squareSize + spacing) * (rowCount) + 20)
       ) 
       // .style("border", "1px solid black");
 
