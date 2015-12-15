@@ -16,10 +16,10 @@
     <!-- Bootstrap core CSS -->
     <link href="./bootstrap_files/bootstrap.min.css" rel="stylesheet">
     <link href="custom.css" rel="stylesheet">
+    <link href='https://fonts.googleapis.com/css?family=Cinzel:400,700,900' rel='stylesheet' type='text/css'>
 
     <script src="./bootstrap_files/ie-emulation-modes-warning.js"></script>
     <script type="text/javascript" src="./node_modules/d3/d3.js"></script>
-    <link href='https://fonts.googleapis.com/css?family=Cinzel:400,700,900' rel='stylesheet' type='text/css'>
 
         <!-- date-time-picker stuff-->
     <!-- // <script src="https://code.jquery.com/jquery-1.10.2.js"></script> -->
@@ -73,13 +73,13 @@
                 <input id="optimism" type="range" style="width: 200px; margin-left:auto; margin-right:auto;"/>
                 <br />
                 <form id="timeScale">
-                  <input type="radio" name="timeP" value="years" class="timeScale" checked="checked">Years
-                  <input type="radio" name="timeP" value="months" class="timeScale">Months
-                  <input type="radio" name="timeP" value="weeks" class="timeScale">Weeks
-                  <input type="radio" name="timeP" value="days" class="timeScale">Days
+                  <input type="radio" name="timeRadio" value="years" class="timeScale radio-inline" checked="checked">Years
+                  <input type="radio" name="timeRadio" value="months" class="timeScale radio-inline">Months
+                  <input type="radio" name="timeRadio" value="weeks" class="timeScale radio-inline">Weeks
+                  <input type="radio" name="timeRadio" value="days" class="timeScale radio-inline">Days
                 </form>
                 <br/>
-                <input type="button" value="show me" onclick="drawLife()" style="color:black;"/>
+                <input class="btn" type="button" value="show me" onclick="drawLife()" style="color:black;"/>
                 <br /><br />
               </div>
             </div>

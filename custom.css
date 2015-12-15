@@ -26,6 +26,7 @@ body {
 body {
   padding-top: 50px;
 }
+
 .starter-template {
   padding: 40px 15px;
   text-align: center;
@@ -43,7 +44,7 @@ h1 {
   margin: 3px !important;
   padding-top: 10px;
   padding-bottom: 10px;
-  font-family: 'Cinzel', serif;
+  font-family: 'Cinzel', serif !important;
 }
 
 p.no_birthday {
@@ -57,4 +58,9 @@ p.no_birthday {
 td {
   text-align: left;
   min-width: 160px;
+}
+
+.btn {
+  background-color: gold;
+  font-weight: bold;
 }
