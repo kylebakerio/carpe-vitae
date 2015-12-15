@@ -14,7 +14,6 @@
   var squareSize,rowSize,spacing,multiplier,start,duration,delay;
 
   function drawLife(){
-    console.log("---------------")
     if ($('#birthday').val() === '') {
       $('.svgContainer').html(
         "<p class='no_birthday starter-template'>Please enter a birthdate.</p>"
@@ -89,9 +88,6 @@
       if (alreadyDrawn) {
         $('.svgContainer').animate({"opacity": "0"}, 1000, function(){
           $('.svgContainer').html("");
-          // for some reason if I pull these two function calls out
-          // and put it after this if/else block, they don't fire
-          // the second time. I really can't figure out why...
           drawStats();
           drawGrid();
         });
@@ -103,29 +99,67 @@
     }
   }
 
+
+
   function drawStats() {
     console.log("drawStats")
 
     $('rect').on('click', function(){ $(this).css('fill', 'rgb(128, 200, 128)'); });
+    
     $('.results').html(
-      "<strong>Grey squares represent units of life already lived, gold represents units remaining.</strong>" +
-      "<br />" + comment +
-      "<br/>Current Age: <strong>" + Math.floor(currentAge.asYears()) + "</strong>" +
-      "<br/>Time left: <strong>" + moment().add(timeLeft).fromNow(true) + "</strong>"  +
-      "<br/>Weeks of life left: <strong>" + Math.floor(timeLeft.asWeeks()) + "</strong>" +
-      "<br/>Days of life left: <strong>" + Math.floor(timeLeft.asDays()) + "</strong>" +
-      "<br/>Time & Date of Death: <strong>" + moment().add(timeLeft).format('MM/DD/YYYY hh:mm a') + "</strong>" +
-      "<br/>Percent of life lived: <strong>" + percentLived + "%</strong>" +
-      "<br/>Presumed total length of life: <strong>" + birthdate.from(moment().add(timeLeft),true) + "</strong>" 
-    );
+      "<table class='table'>" +
+        "<tr>" +
+          "<td>" + "Current Age:" + "</td>" +
+          "<td>" + "<strong>" + Math.floor(currentAge.asYears()) + " years old</strong>" + "</td>" +
+        "</tr>" +
+        "<tr>" +
+          "<td>" + "Time left:" + "</td>" +
+          "<td>" + "<strong>" + moment().add(timeLeft).fromNow(true) + "</strong>" + "</td>" +
+        "</tr>" +
+        "<tr>" +
+          "<td>" + "Weeks of Life left" + "</td>" +
+          "<td>" + "<strong>" + Math.floor(timeLeft.asWeeks()) + "</strong>"  + "</td>" +
+        "</tr>" +
+        "<tr>" +
+          "<td>" + "Days of Life left:" + "</td>" +
+          "<td>" + "<strong>" + Math.floor(timeLeft.asDays()) + "</strong>" + "</td>" +
+        "</tr>" +
+        "<tr>" +
+          "<td>" + "Time & Date of Death:" + "</td>" +
+          "<td>" + "<strong>" + moment().add(timeLeft).format('MM/DD/YYYY hh:mm a') + "<strong>" + "</td>" +
+        "</tr>" +
+        "<tr>" +
+          "<td>" + "Percent of Life lived:" + "</td>" +
+          "<td>" + "<strong>" + percentLived + "%</strong>"  + "</td>" +
+        "</tr>" +
+        "<tr>" +
+          "<td>" + "Length of life:" + "</td>" +
+          "<td>" + "<strong>" + birthdate.from(moment().add(timeLeft),true) + "</strong>" + "</td>" +
+        "</tr>" +            
+      "</table>" +
+      "<strong> Grey squares represent units of life already lived, gold represents units remaining. </strong>" +
+      "<br /> <br />" + comment       
+    )
+
+    // $('.results').html(
+    //   "<strong>Grey squares represent units of life already lived, gold represents units remaining.</strong>" +
+    //   "<br />" + comment +
+    //   "<br/>Current Age: <strong>" + Math.floor(currentAge.asYears()) + "</strong>" +
+    //   "<br/>Time left: <strong>" + moment().add(timeLeft).fromNow(true) + "</strong>"  +
+    //   "<br/>Weeks of life left: <strong>" + Math.floor(timeLeft.asWeeks()) + "</strong>" +
+    //   "<br/>Days of life left: <strong>" + Math.floor(timeLeft.asDays()) + "</strong>" +
+    //   "<br/>Time & Date of Death: <strong>" + moment().add(timeLeft).format('MM/DD/YYYY hh:mm a') + "</strong>" +
+    //   "<br/>Percent of life lived: <strong>" + percentLived + "%</strong>" +
+    //   "<br/>Presumed total length of life: <strong>" + birthdate.from(moment().add(timeLeft),true) + "</strong>" 
+    // );
+
     $('.results').fadeTo(1000,1);
   }
 
   function drawGrid(){
     console.log("drawGrid")
     var loc = {x:0,y:15};
-    var rowCount = life.length/multiplier/yearsPerRow;
-    if (rowCount < 1) rowCount = 1;
+    var rowCount = Math.ceil(life.length/multiplier/yearsPerRow);
 
     $('.svgContainer').css({"opacity": "1"})
     var box = d3.select(".svgContainer")
@@ -133,7 +167,7 @@
       .attr("id","theCanvas")
       .attr("width",$('.svgContainer').width())
       .attr("height", 
-        ((squareSize + spacing) * (rowCount) + 20)
+        ((squareSize + spacing) * rowCount) + 20
       ) 
       // .style("border", "1px solid black");
 

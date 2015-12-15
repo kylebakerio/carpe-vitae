@@ -36,11 +36,13 @@ body {
 }*/
 
 div.starter-template {
-  padding:2px !important;
+  padding: 2px !important;
 }
 
 h1 {
-  margin:3px !important;
+  margin: 3px !important;
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 p.no_birthday {
@@ -49,4 +51,9 @@ p.no_birthday {
 
 .results {
   opacity: 0;
+}
+
+td {
+  text-align: left;
+  min-width: 160px;
 }
