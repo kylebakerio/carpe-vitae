@@ -19,6 +19,7 @@
 
     <script src="./bootstrap_files/ie-emulation-modes-warning.js"></script>
     <script type="text/javascript" src="./node_modules/d3/d3.js"></script>
+    <link href='https://fonts.googleapis.com/css?family=Cinzel:400,700,900' rel='stylesheet' type='text/css'>
 
         <!-- date-time-picker stuff-->
     <!-- // <script src="https://code.jquery.com/jquery-1.10.2.js"></script> -->
@@ -84,6 +85,9 @@
             </div>
 
             <script type="text/javascript">
+              if (window.innerWidth < 700) alert(
+                "For a better experience, please increase your screen width or switch to landscape more"
+              )
               $(function () {
                 // botstrap component stuff
                 $('#datetimepicker1').datetimepicker();
