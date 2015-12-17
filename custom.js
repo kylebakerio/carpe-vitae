@@ -16,11 +16,22 @@
 
   window.drawLife = function(){
     if ($('#birthday').val() === '') {
-      $('.svgContainer').html(
-        "<p class='no_birthday starter-template'>Please enter a birthdate.</p>"
-        );
-      $('.no_birthday').fadeTo(500, 1); 
-      alreadyDrawn = true;
+      
+      if (alreadyDrawn) {
+        $('.svgContainer').fadeTo(500,0,function(){
+          $('.svgContainer').html();
+        });
+      } else {
+        alreadyDrawn = true;
+      }
+
+      $('.results').fadeTo(500, 0, function(){
+        $('.results').html(
+          "Please enter a birthdate."
+          );
+        $('.results').fadeTo(500, 1); 
+      }); 
+
     } else {
       scale = $('input.timeScale:checked').val(); //from the radio buttons
       if (scale  === "years")       {
@@ -96,6 +107,7 @@
 
 
       if (alreadyDrawn) {
+        $('.results').fadeTo(1000,0);
         $('.svgContainer').animate({"opacity": "0"}, 1000, function(){
           $('.svgContainer').html("");
           drawStats();
@@ -112,7 +124,6 @@
   function drawStats() {
     console.log("drawStats")
     currentAgeClone = moment.duration(currentAge.asYears(), "years");
-
     $('.results').html(
       "<table class='table'>" +
         "<tr>" +
@@ -156,6 +167,7 @@
     var rowCount = Math.ceil(life.length/multiplier/yearsPerRow);
 
     $('.svgContainer').css({"opacity": "1"})
+
     var box = d3.select(".svgContainer")
       .append("svg")
       .attr("id","theCanvas")
