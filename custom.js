@@ -198,28 +198,3 @@
   }
 
 }())
-
-// old unfinished idea:
-//
-// // console.log(rects)
-// var overlay = box
-//   // .selectAll('g')
-//   .data($('rect'))
-//   .enter()
-//   .append("text")
-//   .text(function (d,i) {
-//     console.log(life[i][0], d);
-//     // console.log(d[0][0][0][__data__][0])
-//     return life[i][0];
-//   })
-//   .attr("x",function (d) {
-//     console.log('d.x: ' + d.x)
-//     return d.x;
-//   })
-//   .attr("y",function (d) {
-//     return d.y;
-//   })
-//   .attr('text-anchor', 'middle')
-//   .style("fill", "black")
-//   .style("stroke-width", 1.5);
-// }
