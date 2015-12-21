@@ -53,8 +53,13 @@ p.no_birthday {
   font-weight: bold;
 }
 
+.date {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
 svg {
-  display:block;
-  margin-left:auto;
-  margin-right:auto;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }

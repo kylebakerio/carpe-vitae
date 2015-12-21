@@ -1,5 +1,6 @@
-
-  var life         = {years:[]};
+(function(){
+  
+  var life = [];
   var optimism     = 100;
   var now          = moment();
   var alreadyDrawn = false;
@@ -13,15 +14,26 @@
 
   var squareSize,rowSize,spacing,multiplier,start,duration,delay;
 
-  function drawLife(){
+  window.drawLife = function(){
     if ($('#birthday').val() === '') {
-      $('.svgContainer').html(
-        "<p class='no_birthday starter-template'>Please enter a birthdate.</p>"
-        );
-      $('.no_birthday').fadeTo(500, 1); 
-      window.alreadyDrawn = true;
+      
+      if (alreadyDrawn) {
+        $('.svgContainer').fadeTo(500,0,function(){
+          $('.svgContainer').html();
+        });
+      } else {
+        alreadyDrawn = true;
+      }
+
+      $('.results').fadeTo(500, 0, function(){
+        $('.results').html(
+          "Please enter a birthdate."
+          );
+        $('.results').fadeTo(500, 1); 
+      }); 
+
     } else {
-      window.scale = $('input.timeScale:checked').val(); //from the radio buttons
+      scale = $('input.timeScale:checked').val(); //from the radio buttons
       if (scale  === "years")       {
         comment     = "Each row contains 10 years.";
         yearsPerRow = 10;
@@ -62,30 +74,40 @@
 
       rowWidth = (rowSize * squareSize) + ((rowSize - 1) * spacing);
       start    = ($('.svgContainer').width() - rowWidth)/2;
-      
-      // diagnostics:
-      // alert("div size: " + $('.svgContainer').width() + ", rowWidth " + rowWidth + ", start: " + start);
 
-      window.optimism      = $('#optimism')[0].value;
-      window.birthdate     = moment($('#birthday').val(), "MM/DD/YYYY hh:mm A");
-      window.currentAge    = moment.duration(moment().diff(birthdate));
-      window.timeLeft      = moment.duration((120*multiplier-Number(currentAge.as(scale)))*(optimism/100), scale) 
-      window.ageAtDeath    = moment.duration(Number(currentAge.as(scale)) + Number(timeLeft.as(scale)), scale);
-      window.percentLived  = Math.floor((100/(ageAtDeath.as('days')/currentAge.as('days')))*100)/100;
-             percentLived  = isNaN(percentLived) ? 0 : percentLived; // handles exception for 0 optimism for dates in the future (i.e., 0*0)
 
-      window.life = [];
+      optimism      = $('#optimism')[0].value;
+      birthdate     = moment($('#birthday').val(), "MM/DD/YYYY hh:mm A");
+      currentAge    = moment.duration(moment().diff(birthdate));
+      if (currentAge.asYears() < 0 ) currentAge = moment.duration({'days' : 0});
+
+      timeLeft      = moment.duration((120*multiplier-Number(currentAge.as(scale)))*(optimism/100), scale) 
+      ageAtDeath    = moment.duration(Number(currentAge.as(scale)) + Number(timeLeft.as(scale)), scale);
+      percentLived  = Math.floor((100/(ageAtDeath.as('days')/currentAge.as('days')))*100)/100; // (*100, floor, /100) gives two extra decimal points as fraction
+      // Handles exception for 0 optimism for dates in the future (i.e., 0*0 -> NaN)
+      if (isNaN(percentLived)) percentLived = 0; 
+
+      // Handles historical dates
+      if (currentAge.asYears() > 119) { 
+        timeLeft     = moment.duration({days:0});
+        ageAtDeath   = currentAge;
+        percentLived = 100;
+      };
+
       if (ageAtDeath.as(scale) < 50000 || 
           prompt("50k range size limit reached. Your attempted unit size: " + 
             Math.floor(ageAtDeath.as(scale)) + 
             ". if you want to try this anyways--it may crash your browser!--type 'yes'") === 'yes') {
         
-        for (var i = 0; i < ageAtDeath.as(scale); i++){
-          window.life.push(i);
+        life = [];
+        for (var i = 1; i <= ageAtDeath.as(scale); i++){
+          life.push(i);
         }
       } 
 
+
       if (alreadyDrawn) {
+        $('.results').fadeTo(1000,0);
         $('.svgContainer').animate({"opacity": "0"}, 1000, function(){
           $('.svgContainer').html("");
           drawStats();
@@ -99,11 +121,9 @@
     }
   }
 
-
-
   function drawStats() {
     console.log("drawStats")
-
+    currentAgeClone = moment.duration(currentAge.asYears(), "years");
     $('.results').html(
       "<table class='table'>" +
         "<tr>" +
@@ -132,7 +152,7 @@
         "</tr>" +
         "<tr>" +
           "<td>" + "Length of life:" + "</td>" +
-          "<td>" + "<strong>" + birthdate.from(moment().add(timeLeft),true) + "</strong>" + "</td>" +
+          "<td>" + "<strong>" + Math.floor(currentAgeClone.add(timeLeft).as('years')) + " years</strong>" + "</td>" +
         "</tr>" +            
       "</table>" +
       "<strong> Grey squares represent units of life already lived, gold represents units remaining. </strong>" +
@@ -143,10 +163,11 @@
 
   function drawGrid(){
     console.log("drawGrid")
-    var loc = {x:0,y:15};
+    var loc = {x:0, y:15};
     var rowCount = Math.ceil(life.length/multiplier/yearsPerRow);
 
     $('.svgContainer').css({"opacity": "1"})
+
     var box = d3.select(".svgContainer")
       .append("svg")
       .attr("id","theCanvas")
@@ -179,7 +200,8 @@
       .duration(duration)
       .style("fill-opacity","1")
       .style("fill",function(d){
-        return (d >= Math.floor(currentAge.as(scale)) ? "orange" : "grey");
+        console.log(d, currentAge.as(scale))
+        return (d > Math.floor(currentAge.as(scale)) ? "orange" : "grey");
       });
 
     $('rect').on('click', function(){ 
@@ -187,27 +209,4 @@
     });
   }
 
-    // trying to overlay text on unit... grrr
-    //
-    // // console.log(rects)
-    // var overlay = box
-    //   // .selectAll('g')
-    //   .data($('rect'))
-    //   .enter()
-    //   .append("text")
-    //   .text(function (d,i) {
-    //     console.log(life[i][0], d);
-    //     // console.log(d[0][0][0][__data__][0])
-    //     return life[i][0];
-    //   })
-    //   .attr("x",function (d) {
-    //     console.log('d.x: ' + d.x)
-    //     return d.x;
-    //   })
-    //   .attr("y",function (d) {
-    //     return d.y;
-    //   })
-    //   .attr('text-anchor', 'middle')
-    //   .style("fill", "black")
-    //   .style("stroke-width", 1.5);
-    // }
+}())
