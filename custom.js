@@ -15,8 +15,8 @@
   var squareSize,rowSize,spacing,multiplier,start,duration,delay;
 
   window.drawLife = function(){
-    if ($('#birthday').val() === '') {
-      
+    var formattingError = isFormattingError();
+    if (formattingError !== false) {
       if (alreadyDrawn) {
         $('.svgContainer').fadeTo(500,0,function(){
           $('.svgContainer').html();
@@ -27,11 +27,11 @@
 
       $('.results').fadeTo(500, 0, function(){
         $('.results').html(
-          "Please enter a birthdate."
+          formattingError
           );
         $('.results').fadeTo(500, 1); 
       }); 
-
+    
     } else {
       scale = $('input.timeScale:checked').val(); //from the radio buttons
       if (scale  === "years")       {
@@ -121,8 +121,48 @@
     }
   }
 
+  function isFormattingError() {
+    var formatErrorMessage = "Birthday not formatted correctly. Please use this style of formatting: 12/30/1989.";
+    var birthdate = $('#birthday').val().split("");
+    console.log("birthdate:", birthdate);
+    if (birthdate.length < 1) {
+      return "Please enter a birthdate."
+    }
+    else if (birthdate.length < 5) {
+      return formatErrorMessage;
+    }
+
+    var slashCount = 0;
+    var numCount   = 0;
+    for (var i = 0; i < birthdate.length; i++) {
+      if (birthdate[i] === "/") {
+        if (numCount < 1) {
+          return formatErrorMessage;
+        }
+        slashCount++;
+        if (isNaN(Number(birthdate[i+1])) || isNaN(Number(birthdate[i-1]))) {
+          console.log(1)
+          return formatErrorMessage;
+        }
+      }
+      else if (!isNaN(Number(birthdate[i]))) {
+        numCount++;
+      }
+      else {
+        console.log(3)
+        return formatErrorMessage;
+      }
+    }
+
+    if (slashCount < 2 || numCount < 3) {
+      console.log(4)
+      return formatErrorMessage;
+    }
+    
+    return false;
+  }
+ 
   function drawStats() {
-    console.log("drawStats")
     currentAgeClone = moment.duration(currentAge.asYears(), "years");
     $('.results').html(
       "<table class='table'>" +
@@ -162,7 +202,6 @@
   }
 
   function drawGrid(){
-    console.log("drawGrid")
     var loc = {x:0, y:15};
     var rowCount = Math.ceil(life.length/multiplier/yearsPerRow);
 
@@ -200,7 +239,6 @@
       .duration(duration)
       .style("fill-opacity","1")
       .style("fill",function(d){
-        console.log(d, currentAge.as(scale))
         return (d > Math.floor(currentAge.as(scale)) ? "orange" : "grey");
       });
 
